@@ -38,6 +38,7 @@ class MainFragment : Fragment() {
 
         viewModel.vehicleList.observe(viewLifecycleOwner) { vehicleList ->
             binding.vehicleList.adapter = VehicleAdapter(vehicleList)
+            binding.tvList.visibility = View.VISIBLE
         }
 
         viewModel.error.observe(viewLifecycleOwner) { error ->
