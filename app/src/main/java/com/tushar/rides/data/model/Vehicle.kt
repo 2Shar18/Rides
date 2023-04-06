@@ -7,5 +7,6 @@ data class Vehicle(
     val vin: String,
     val make_and_model: String,
     val color: String,
-    val car_type: String
+    val car_type: String,
+    val kilometrage: Int
 ): Serializable

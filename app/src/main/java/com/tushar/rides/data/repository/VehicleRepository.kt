@@ -31,6 +31,7 @@ class VehicleRepository {
                         jsonVehicle.getString("make_and_model"),
                         jsonVehicle.getString("color"),
                         jsonVehicle.getString("car_type"),
+                        jsonVehicle.getInt("kilometrage")
                     )
                     vehicles.add(vehicle)
                 }
