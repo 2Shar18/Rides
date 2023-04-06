@@ -29,6 +29,16 @@ class DetailFragment : Fragment() {
         return binding.root
     }
 
+    fun calculateCarbonEmission(km:Int?) : Double {
+        var carbonEmission: Double = 0.00
+        if (km == null)
+            return carbonEmission
+        carbonEmission = km.toDouble()
+        if (km > 5000)
+            carbonEmission += ((km - 5000) * 0.5)
+        return carbonEmission
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val vehicle:Vehicle = args.vehicle
@@ -39,18 +49,15 @@ class DetailFragment : Fragment() {
             vehicleCarType.text = vehicle.car_type
             carbonBottomSheet.setOnClickListener {
                 val dialog = BottomSheetDialog(requireContext())
-                val view = layoutInflater.inflate(R.layout.bottom_sheet_dialog, null)
-                val tvKilometer = view.findViewById<TextView>(R.id.tvKilometer)
-                val km = vehicle.kilometrage.toDouble()
-                tvKilometer.text = "This vehicle has driven "+String.format("%.0f", km)+" KM."
-                val tvCarbonEmission = view.findViewById<TextView>(R.id.tvCarbonEmission)
-                var carbonEmission:Double = km;
-                if (km > 5000) {
-                    carbonEmission += ((km - 5000) * 0.5)
-                }
+                val vw = layoutInflater.inflate(R.layout.bottom_sheet_dialog, null)
+                val tvKilometer = vw.findViewById<TextView>(R.id.tvKilometer)
+                val km = vehicle.kilometrage
+                tvKilometer.text = "This vehicle has driven "+km+" KM."
+                val tvCarbonEmission = vw.findViewById<TextView>(R.id.tvCarbonEmission)
+                val carbonEmission = calculateCarbonEmission(km)
                 tvCarbonEmission.text = "Estimated carbon emission is "+String.format("%.2f", carbonEmission)+" units."
                 dialog.setCancelable(true)
-                dialog.setContentView(view)
+                dialog.setContentView(vw)
                 dialog.show()
             }
         }

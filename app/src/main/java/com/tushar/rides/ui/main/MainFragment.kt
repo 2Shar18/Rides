@@ -27,13 +27,17 @@ class MainFragment : Fragment() {
         return binding.root
     }
 
+    fun isValidCount(ct:Int?) : Boolean {
+        return (ct != null && ct in 1 .. 100)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
         binding.swipeContainer.setOnRefreshListener {
-            if (count in 1..100) {
+            if (isValidCount(count)) {
                 viewModel.generateVehicles(count)
             }
         }
@@ -42,8 +46,8 @@ class MainFragment : Fragment() {
 
         binding.generateButton.setOnClickListener {
             val numVehicles = binding.numVehicles.text.toString().toIntOrNull()
-            if (numVehicles != null && numVehicles > 0 && numVehicles <= 100) {
-                count = numVehicles
+            if (isValidCount(numVehicles)) {
+                count = numVehicles!!.toInt()
                 viewModel.generateVehicles(count)
                 binding.swipeContainer.isRefreshing = true
             } else {
